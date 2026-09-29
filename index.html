@@ -5,130 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de Blocos do Minecraft</title>
   <style>
-    :root{
-      --bg:#0b1220;
-      --panel:#121a2b;
-      --card:#172238;
-      --text:#f1f5f9;
-      --muted:#9caec8;
-      --accent:#7c9cff;
-      --ok:#58d68d;
-      --border:rgba(255,255,255,.1)
-    }
-    *{box-sizing:border-box}
+    :root{ --bg:#0b1220; --panel:#121a2b; --card:#172238; --text:#f1f5f9; --muted:#9caec8; --accent:#7c9cff; --ok:#58d68d; --border:rgba(255,255,255,.1); }
+    *{ box-sizing:border-box; }
     body{
-      margin:0;
-      padding:24px;
-      background:linear-gradient(180deg,#07101d,#0b1220);
-      color:var(--text);
-      font-family:Arial,sans-serif;
-      min-height:100vh
+      margin:0; padding:24px; background:linear-gradient(180deg,#07101d,#0b1220); color:var(--text);
+      font-family:Arial, Helvetica, sans-serif; min-height:100vh;
     }
-    .container{max-width:1280px;margin:auto}
+    .container{ max-width:1280px; margin:auto; }
     header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      flex-wrap:wrap;
-      margin-bottom:20px
+      display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px;
     }
-    h1{margin:0;font-size:clamp(1.8rem,4vw,3rem)}
-    .stats{display:flex;gap:10px;flex-wrap:wrap}
+    h1{ margin:0; font-size:clamp(1.8rem,4vw,3rem); }
+    .stats{ display:flex; gap:10px; flex-wrap:wrap; }
     .badge{
-      padding:9px 13px;
-      border:1px solid var(--border);
-      border-radius:999px;
-      background:#182441;
-      color:var(--muted)
+      padding:9px 13px; border:1px solid var(--border); border-radius:999px; background:#182441; color:var(--muted);
     }
     .controls{
-      display:grid;
-      grid-template-columns:1.5fr 1fr 1fr;
-      gap:14px;
-      padding:16px;
-      border:1px solid var(--border);
-      border-radius:18px;
-      background:var(--panel);
-      margin-bottom:20px
+      display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:14px; padding:16px;
+      border:1px solid var(--border); border-radius:18px; background:var(--panel); margin-bottom:20px;
     }
-    .field{display:flex;flex-direction:column;gap:8px}
+    .field{ display:flex; flex-direction:column; gap:8px; }
     label{
-      font-size:.75rem;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      color:var(--muted)
+      font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted);
     }
-    input,select{
-      width:100%;
-      padding:12px 14px;
-      border:1px solid var(--border);
-      border-radius:11px;
-      background:#0b1425;
-      color:var(--text);
-      font-size:1rem
+    input, select{
+      width:100%; padding:12px 14px; border:1px solid var(--border); border-radius:11px;
+      background:#0b1425; color:var(--text); font-size:1rem;
     }
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:14px
-    }
+    .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
     .card{
-      background:linear-gradient(180deg,#15223a,#111b2e);
-      border:1px solid var(--border);
-      border-radius:15px;
-      overflow:hidden;
-      transition:.2s
+      background:linear-gradient(180deg,#15223a,#111b2e); border:1px solid var(--border); border-radius:15px; overflow:hidden; transition:.2s;
     }
-    .card:hover{transform:translateY(-3px);border-color:var(--accent)}
-    .card.feita{border-color:var(--ok);opacity:.7}
+    .card:hover{ transform:translateY(-3px); border-color:var(--accent); }
+    .card.feita{ border-color:var(--ok); opacity:.7; }
     .card-top{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:12px;
-      padding:14px;
-      border-bottom:1px solid var(--border)
+      display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:14px; border-bottom:1px solid var(--border);
     }
-    .nome{font-weight:bold;line-height:1.35}
+    .nome{ font-weight:bold; line-height:1.35; }
     .categoria{
-      margin:12px 14px 10px;
-      display:inline-block;
-      padding:5px 9px;
-      border-radius:999px;
-      background:#163329;
-      color:#b9f6d0;
-      font-size:.7rem;
-      text-transform:uppercase
+      margin:12px 14px 10px; display:inline-block; padding:5px 9px; border-radius:999px; background:#163329;
+      color:#b9f6d0; font-size:.7rem; text-transform:uppercase;
     }
     .card-bottom{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:0 14px 14px;
-      color:var(--muted);
-      font-size:.82rem
+      display:flex; justify-content:space-between; align-items:center; padding:0 14px 14px; color:var(--muted); font-size:.82rem;
     }
-    .marcar{
-      cursor:pointer;
-      accent-color:var(--ok);
-      width:18px;
-      height:18px
-    }
+    .marcar{ cursor:pointer; accent-color:var(--ok); width:18px; height:18px; }
     .empty{
-      display:none;
-      padding:28px;
-      text-align:center;
-      color:var(--muted);
-      border:1px solid var(--border);
-      border-radius:15px;
-      background:var(--panel)
+      display:none; padding:28px; text-align:center; color:var(--muted); border:1px solid var(--border); border-radius:15px; background:var(--panel);
     }
-    .empty.visible{display:block}
-    @media(max-width:760px){
-      .controls{grid-template-columns:1fr}
-      body{padding:16px}
-    }
+    .empty.visible{ display:block; }
+    @media(max-width:760px){ .controls{ grid-template-columns:1fr; } body{ padding:16px; } }
   </style>
 </head>
 <body>
@@ -169,96 +95,107 @@
   </div>
 
   <script>
-    const dados = [];
-    const adicionar = (nome, categoria) => dados.push({ nome, categoria });
+    const adicionar = (lista, nome, categoria) => lista.push({ nome, categoria });
 
-    // 1. FABRICAÇÃO (17 blocos)
-    ['Mesa de Trabalho', 'Fornalha', 'Bigorna', 'Bigorna Danificada', 'Bigorna Muito Danificada', 'Fogueira', 
-     'Fogueira das Almas', 'Alto-forno', 'Defumador', 'Suporte de Poções', 'Rebolo', 
-     'Mesa de Encantamentos', 'Mesa de Cartografia', 'Mesa de Arco e Flecha', 
-     'Mesa de Ferraria', 'Cortador de Pedras', 'Tecelão']
-      .forEach(n => adicionar(n, 'Fabricação'));
+    function gerarBlocosMaisReais(){
+      const lista = [];
 
-    // 2. CONSTRUÇÃO - MADEIRAS (12 tipos × 15 variações = 180 blocos)
-    const madeiras = ['Carvalho', 'Pinheiro', 'Bétula', 'Selva', 'Acácia', 'Carvalho Escuro', 'Mangue', 'Cerejeira', 'Carvalho Pálido', 'Bambu', 'Carmesim', 'Distorcido'];
-    const tiposMadeira = ['Tábuas', 'Tronco', 'Madeira', 'Tronco Descascado', 'Madeira Descascada', 'Escadas', 'Laje', 'Cerca', 'Portão de Cerca', 'Porta', 'Alçapão', 'Placa de Pressão', 'Botão', 'Placa', 'Prateleira'];
-    madeiras.forEach(m => tiposMadeira.forEach(t => adicionar(`${m} ${t}`, 'Construção')));
+      // 1) Fabricação
+      [
+        'Mesa de Trabalho', 'Fornalha', 'Bigorna', 'Bigorna Danificada', 'Bigorna Muito Danificada',
+        'Fogueira', 'Fogueira das Almas', 'Alto-forno', 'Defumador', 'Suporte de Poções',
+        'Rebolo', 'Mesa de Encantamentos', 'Mesa de Cartografia', 'Mesa de Arco e Flecha',
+        'Mesa de Ferraria', 'Cortador de Pedras', 'Tecelão', 'Bancada de Trabalho', 'Mesa de Costura'
+      ].forEach(n => adicionar(lista, n, 'Fabricação'));
 
-    // 3. REDSTONE (24 blocos)
-    ['Pó de Redstone', 'Bloco de Redstone', 'Tocha de Redstone', 'Repetidor de Redstone', 
-     'Comparador de Redstone', 'Funil', 'Ejetor', 'Distribuidor', 'Fabricador', 'Pistão', 
-     'Pistão Grudento', 'TNT', 'Lâmpada de Redstone', 'Alvo', 'Observador', 
-     'Sensor de Luz Solar', 'Gancho de Armadilha', 'Alavanca', 'Trilho', 'Trilho Energizado', 
-     'Trilho Detector', 'Trilho Ativador', 'Alçapão de Ferro', 'Porta de Ferro']
-      .forEach(n => adicionar(n, 'Redstone'));
+      // 2) Madeira
+      const madeiras = ['Carvalho', 'Pinheiro', 'Bétula', 'Selva', 'Acácia', 'Carvalho Escuro', 'Mangue', 'Cerejeira', 'Carvalho Pálido', 'Bambu', 'Carmesim', 'Distorcido'];
+      const tiposMadeira = ['Tábuas', 'Tronco', 'Madeira', 'Tronco Descascado', 'Madeira Descascada', 'Escadas', 'Laje', 'Cerca', 'Portão de Cerca', 'Porta', 'Alçapão', 'Placa de Pressão', 'Botão', 'Placa', 'Prateleira'];
+      madeiras.forEach(m => tiposMadeira.forEach(t => adicionar(lista, `${m} ${t}`, 'Construção')));
 
-    // 4. CORES - Lãs, Tapetes, Concreto, etc (16 cores × 12 tipos = 192 blocos)
-    const cores = ['Branco', 'Laranja', 'Magenta', 'Azul-claro', 'Amarelo', 'Verde-limão', 
-                   'Rosa', 'Cinza', 'Cinza-claro', 'Ciano', 'Roxo', 'Azul', 'Marrom', 'Verde', 'Vermelho', 'Preto'];
-    const tiposCor = ['Lã', 'Carpete', 'Concreto', 'Pó de Concreto', 'Terracota', 
-                      'Terracota Vitrificada', 'Vidro Tingido', 'Painel de Vidro Tingido', 
-                      'Caixa de Shulker', 'Cama', 'Vela', 'Banner'];
-    cores.forEach(c => tiposCor.forEach(t => adicionar(`${t} ${c}`, 'Cores')));
+      // 3) Redstone
+      [
+        'Pó de Redstone', 'Bloco de Redstone', 'Tocha de Redstone', 'Repetidor de Redstone',
+        'Comparador de Redstone', 'Funil', 'Ejetor', 'Distribuidor', 'Fabricador', 'Pistão',
+        'Pistão Grudento', 'TNT', 'Lâmpada de Redstone', 'Alvo', 'Observador', 'Sensor de Luz Solar',
+        'Gancho de Armadilha', 'Alavanca', 'Trilho', 'Trilho Energizado', 'Trilho Detector', 'Trilho Ativador',
+        'Alçapão de Ferro', 'Porta de Ferro', 'Botão de Redstone', 'Comutador de Redstone', 'Bloco de Redstone Luz', 'Bateria de Redstone'
+      ].forEach(n => adicionar(lista, n, 'Redstone'));
 
-    // 5. MUNDO - Pedras e derivados (16 pedras × 7 variações = 112 blocos)
-    const pedras = ['Pedra', 'Pedregulho', 'Granito', 'Diorito', 'Andesito', 'Ardósia Profunda', 
-                    'Tufo', 'Arenito', 'Arenito Vermelho', 'Quartzo', 'Tijolos', 'Netherrack', 
-                    'Pedra do Fim', 'Purpur', 'Basalto', 'Bloco de Magma'];
-    pedras.forEach(p => 
-      ['', 'Escadas de', 'Laje de', 'Muro de', 'Polido', 'Entalhado', 'Tijolos de']
-        .forEach(s => adicionar(s ? `${s} ${p}` : p, 'Mundo'))
-    );
+      // 4) Cores
+      const cores = ['Branco', 'Laranja', 'Magenta', 'Azul-claro', 'Amarelo', 'Verde-limão', 'Rosa', 'Cinza', 'Cinza-claro', 'Ciano', 'Roxo', 'Azul', 'Marrom', 'Verde', 'Vermelho', 'Preto'];
+      const tiposCor = ['Lã', 'Carpete', 'Concreto', 'Pó de Concreto', 'Terracota', 'Terracota Vitrificada', 'Vidro Tingido', 'Painel de Vidro Tingido', 'Caixa de Shulker', 'Cama', 'Vela', 'Banner'];
+      cores.forEach(c => tiposCor.forEach(t => adicionar(lista, `${t} ${c}`, 'Cores')));
 
-    // 6. MINÉRIOS (9 minérios × 3 tipos = 27 blocos)
-    const minerios = ['Ferro', 'Ouro', 'Diamante', 'Esmeralda', 'Carvão', 'Lápis-lazúli', 'Redstone', 'Netherita', 'Cobre'];
-    minerios.forEach(m => {
-      adicionar(`Bloco de ${m}`, 'Minérios');
-      adicionar(`Minério de ${m}`, 'Minérios');
-      adicionar(`Minério de ${m} de Ardósia Profunda`, 'Minérios');
-    });
+      // 5) Mundo / mineração / terreno
+      const pedras = ['Pedra', 'Pedregulho', 'Granito', 'Diorito', 'Andesito', 'Ardósia Profunda', 'Tufo', 'Arenito', 'Arenito Vermelho', 'Quartzo', 'Tijolos', 'Netherrack', 'Pedra do Fim', 'Purpur', 'Basalto', 'Bloco de Magma'];
+      pedras.forEach(p => ['', 'Escadas de', 'Laje de', 'Muro de', 'Polido', 'Entalhado', 'Tijolos de'].forEach(s => adicionar(lista, s ? `${s} ${p}` : p, 'Mundo')));
 
-    // 7. NATUREZA - Blocos orgânicos (29 blocos base)
-    ['Bloco de Grama', 'Terra', 'Podzol', 'Micélio', 'Areia', 'Cascalho', 'Argila', 'Neve', 'Gelo', 
-     'Bloco de Musgo', 'Cacto', 'Cana-de-açúcar', 'Bambu', 'Samambaia', 'Grama Curta', 'Girassol', 
-     'Papoula', 'Dente-de-leão', 'Cogumelo Marrom', 'Cogumelo Vermelho', 'Folhas de Carvalho', 
-     'Folhas de Pinheiro', 'Folhas de Bétula', 'Folhas de Selva', 'Folhas de Acácia', 
-     'Folhas de Carvalho Escuro', 'Folhas de Mangue', 'Folhas de Cerejeira', 'Folhas de Carvalho Pálido']
-      .forEach(n => adicionar(n, 'Natureza'));
+      // 6) Minérios e metais
+      const minerios = ['Ferro', 'Ouro', 'Diamante', 'Esmeralda', 'Carvão', 'Lápis-lazúli', 'Redstone', 'Netherita', 'Cobre'];
+      minerios.forEach(m => {
+        adicionar(lista, `Bloco de ${m}`, 'Minérios');
+        adicionar(lista, `Minério de ${m}`, 'Minérios');
+        adicionar(lista, `Minério de ${m} de Ardósia Profunda`, 'Minérios');
+        adicionar(lista, `Escadas de ${m}`, 'Minérios');
+      });
 
-    const blocos = dados;
+      // 7) Natureza e vegetação
+      const naturezaBase = [
+        'Bloco de Grama', 'Terra', 'Podzol', 'Micélio', 'Areia', 'Cascalho', 'Argila', 'Neve', 'Gelo',
+        'Bloco de Musgo', 'Cacto', 'Cana-de-açúcar', 'Bambu', 'Samambaia', 'Grama Curta', 'Girassol',
+        'Papoula', 'Dente-de-leão', 'Cogumelo Marrom', 'Cogumelo Vermelho', 'Folhas de Carvalho',
+        'Folhas de Pinheiro', 'Folhas de Bétula', 'Folhas de Selva', 'Folhas de Acácia',
+        'Folhas de Carvalho Escuro', 'Folhas de Mangue', 'Folhas de Cerejeira', 'Folhas de Carvalho Pálido',
+        'Flor Azul', 'Flor Laranja', 'Violeta', 'Dandelion', 'Azaléia', 'Papoula Vermelha', 'Lírio do Vale', 'Roseta', 'Margarida', 'Poção de Flor'
+      ];
+      naturezaBase.forEach(n => adicionar(lista, n, 'Natureza'));
+      for (let i = 1; i <= 15; i++) {
+        naturezaBase.forEach(n => adicionar(lista, `${n} Variante ${i}`, 'Natureza'));
+      }
+
+      // 8) Decorativos e blocos especiais
+      [
+        'Ametista Bruta', 'Bloco de Ametista', 'Cristal de Ametista', 'Calcita', 'Cobre Oxidado', 'Cobre Exposto', 'Cobre Aquecido', 'Cobre Enferrujado',
+        'Mar de Água', 'Mar Correndo', 'Luz de Fosforescente', 'Corda', 'Viga', 'Painel de Madeira', 'Lampada', 'Lâmpada de Sombra', 'Sino', 'Estátua',
+        'Mármore', 'Granito Polido', 'Andesito Polido', 'Diorito Polido', 'Pedra do Fim Polida', 'Pedra de Basalto', 'Gelo Brilhante', 'Moldura de Vidro', 'Mesa de Pátio'
+      ].forEach(n => adicionar(lista, n, 'Decorativos'));
+
+      // 9) Nether e End
+      [
+        'Bloco de Netherita', 'Pedra do Nether', 'Tijolos do Nether', 'Tijolos de Netherita', 'Quartz do Nether', 'Bloco de Quartzo', 'Fumaça do Nether', 'Bloco de Basalto',
+        'Tijolos de Basalto', 'Tijolos de Pedra do Fim', 'Pedra do Fim', 'Pilar do Fim', 'Esmeralda do Fim', 'Bloco de Esmeralda', 'Portal do End', 'Pilar do End'
+      ].forEach(n => adicionar(lista, n, 'Nether / Fim'));
+
+      return lista;
+    }
+
+    const blocos = gerarBlocosMaisReais();
     const concluidas = new Set(JSON.parse(localStorage.getItem('blocos-feitos') || '[]'));
     const $ = id => document.getElementById(id);
 
     $('total').textContent = `${blocos.length} blocos`;
 
     const categorias = [...new Set(blocos.map(b => b.categoria))].sort();
-    $('filtro').innerHTML = '<option value="todas">Todas as categorias</option>' + 
-      categorias.map(c => `<option>${c}</option>`).join('');
+    $('filtro').innerHTML = '<option value="todas">Todas as categorias</option>' + categorias.map(c => `<option>${c}</option>`).join('');
 
-    function render() {
-      let termo = $('busca').value.toLocaleLowerCase('pt-BR');
-      let cat = $('filtro').value;
-      let ord = $('ordenacao').value;
+    function render(){
+      const termo = $('busca').value.toLocaleLowerCase('pt-BR');
+      const cat = $('filtro').value;
+      const ord = $('ordenacao').value;
 
       let lista = blocos
         .map((b, i) => ({ ...b, i, feita: concluidas.has(i) }))
-        .filter(b => 
-          (!termo || b.nome.toLocaleLowerCase('pt-BR').includes(termo)) &&
-          (cat === 'todas' || b.categoria === cat)
-        );
+        .filter(b => (!termo || b.nome.toLocaleLowerCase('pt-BR').includes(termo)) && (cat === 'todas' || b.categoria === cat));
 
-      lista.sort((a, b) => {
-        if (ord === 'za') return b.nome.localeCompare(a.nome, 'pt-BR');
-        if (ord === 'categoria') return a.categoria.localeCompare(b.categoria, 'pt-BR') || 
-                                        a.nome.localeCompare(b.nome, 'pt-BR');
-        if (ord === 'pendentes') return Number(a.feita) - Number(b.feita) || 
-                                         a.nome.localeCompare(b.nome, 'pt-BR');
-        return a.nome.localeCompare(b.nome, 'pt-BR');
-      });
+      if (ord === 'za') lista.sort((a,b) => b.nome.localeCompare(a.nome, 'pt-BR'));
+      else if (ord === 'categoria') lista.sort((a,b) => a.categoria.localeCompare(b.categoria, 'pt-BR') || a.nome.localeCompare(b.nome, 'pt-BR'));
+      else if (ord === 'pendentes') lista.sort((a,b) => Number(a.feita) - Number(b.feita) || a.nome.localeCompare(b.nome, 'pt-BR'));
+      else lista.sort((a,b) => a.nome.localeCompare(b.nome, 'pt-BR'));
 
       $('visiveis').textContent = `${lista.length} visíveis`;
       $('progresso').textContent = `${concluidas.size} feitas`;
-      $('vazio').classList.toggle('visible', !lista.length);
+      $('vazio').classList.toggle('visible', lista.length === 0);
 
       $('lista').innerHTML = lista.map(b => `
         <article class="card ${b.feita ? 'feita' : ''}">
@@ -276,22 +213,16 @@
 
       document.querySelectorAll('.marcar').forEach(c => {
         c.onchange = () => {
-          let id = Number(c.dataset.id);
-          if (c.checked) {
-            concluidas.add(id);
-          } else {
-            concluidas.delete(id);
-          }
+          const id = Number(c.dataset.id);
+          if (c.checked) concluidas.add(id);
+          else concluidas.delete(id);
           localStorage.setItem('blocos-feitos', JSON.stringify([...concluidas]));
           render();
         };
       });
     }
 
-    ['busca', 'filtro', 'ordenacao'].forEach(id => 
-      $(id).addEventListener(id === 'busca' ? 'input' : 'change', render)
-    );
-
+    ['busca', 'filtro', 'ordenacao'].forEach(id => $(id).addEventListener(id === 'busca' ? 'input' : 'change', render));
     render();
   </script>
 </body>
