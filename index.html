@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Blocos do Minecraft</title>
+  <style>
+    :root{--bg:#0b1220;--panel:#121a2b;--card:#172238;--text:#f1f5f9;--muted:#9caec8;--accent:#7c9cff;--ok:#58d68d;--border:rgba(255,255,255,.1)}
+    *{box-sizing:border-box} body{margin:0;padding:24px;background:linear-gradient(180deg,#07101d,#0b1220);color:var(--text);font-family:Arial,sans-serif;min-height:100vh}.container{max-width:1280px;margin:auto}
+    header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:20px}h1{margin:0;font-size:clamp(1.8rem,4vw,3rem)}.stats{display:flex;gap:10px;flex-wrap:wrap}.badge{padding:9px 13px;border:1px solid var(--border);border-radius:999px;background:#182441;color:var(--muted)}
+    .controls{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:14px;padding:16px;border:1px solid var(--border);border-radius:18px;background:var(--panel);margin-bottom:20px}.field{display:flex;flex-direction:column;gap:8px}label{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}input,select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:11px;background:#0b1425;color:var(--text);font-size:1rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.card{background:linear-gradient(180deg,#15223a,#111b2e);border:1px solid var(--border);border-radius:15px;overflow:hidden;transition:.2s}.card:hover{transform:translateY(-3px);border-color:var(--accent)}.card.feita{border-color:var(--ok);opacity:.7}.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:14px;border-bottom:1px solid var(--border)}.nome{font-weight:bold;line-height:1.35}.categoria{margin:12px 14px 10px;display:inline-block;padding:5px 9px;border-radius:999px;background:#163329;color:#b9f6d0;font-size:.7rem;text-transform:uppercase}.card-bottom{display:flex;justify-content:space-between;align-items:center;padding:0 14px 14px;color:var(--muted);font-size:.82rem}.marcar{cursor:pointer;accent-color:var(--ok);width:18px;height:18px}.empty{display:none;padding:28px;text-align:center;color:var(--muted);border:1px solid var(--border);border-radius:15px;background:var(--panel)}.empty.visible{display:block}
+    @media(max-width:760px){.controls{grid-template-columns:1fr}body{padding:16px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header><h1>Lista de Blocos do Minecraft</h1><div class="stats"><span class="badge" id="total">0 blocos</span><span class="badge" id="progresso">0 feitas</span><span class="badge" id="visiveis">0 visíveis</span></div></header>
+    <section class="controls">
+      <div class="field"><label for="busca">Pesquisar bloco</label><input id="busca" placeholder="Ex.: diamante, redstone, carvalho..."></div>
+      <div class="field"><label for="filtro">Categoria</label><select id="filtro"><option value="todas">Todas as categorias</option></select></div>
+      <div class="field"><label for="ordenacao">Ordenar</label><select id="ordenacao"><option value="az">Nome A-Z</option><option value="za">Nome Z-A</option><option value="categoria">Categoria</option><option value="pendentes">Não marcadas primeiro</option></select></div>
+    </section>
+    <div id="vazio" class="empty">Nenhum bloco encontrado.</div><main id="lista" class="grid"></main>
+  </div>
+<script>
+const madeiras={Carvalho:'Oak',Pinheiro:'Spruce',Bétula:'Birch',Selva:'Jungle',Acácia:'Acacia',"Carvalho Escuro":'Dark Oak',Mangue:'Mangrove',Cerejeira:'Cherry',"Carvalho Pálido":'Pale Oak',Bambu:'Bamboo',Carmesim:'Crimson',Distorcido:'Warped'};
+const tiposMadeira={Tábuas:'Planks',Tronco:'Log',Madeira:'Wood','Tronco Descascado':'Stripped Log','Madeira Descascada':'Stripped Wood',Escadas:'Stairs','Laje':'Slab','Cerca':'Fence','Portão de Cerca':'Fence Gate','Porta':'Door','Alçapão':'Trapdoor','Placa de Pressão':'Pressure Plate','Botão':'Button','Placa':'Sign','Prateleira':'Shelf'};
+const dados=[];const adicionar=(nome,categoria)=>dados.push({nome,categoria});
+['Mesa de Trabalho','Fornalha','Bigorna','Bigorna Danificada','Fogueira','Fogueira das Almas','Alto-forno','Defumador','Suporte de Poções','Rebolo','Mesa de Encantamentos','Mesa de Cartografia','Mesa de Arco e Flecha','Mesa de Ferraria','Cortador de Pedras','Tecelão'].forEach(n=>adicionar(n,'Fabricação'));
+Object.entries(madeiras).forEach(([pt])=>Object.keys(tiposMadeira).forEach(t=>adicionar(`${pt} ${t}`,'Construção')));
+['Pó de Redstone','Bloco de Redstone','Tocha de Redstone','Repetidor de Redstone','Comparador de Redstone','Funil','Ejetor','Distribuidor','Fabricador','Pistão','Pistão Grudento','TNT','Lâmpada de Redstone','Alvo','Observador','Sensor de Luz Solar','Gancho de Armadilha','Alavanca','Trilho','Trilho Energizado','Trilho Detector','Trilho Ativador','Alçapão de Ferro','Porta de Ferro'].forEach(n=>adicionar(n,'Redstone'));
+const cores=['Branco','Laranja','Magenta','Azul-claro','Amarelo','Verde-limão','Rosa','Cinza','Cinza-claro','Ciano','Roxo','Azul','Marrom','Verde','Vermelho','Preto'];const tiposCor=['Lã','Carpete','Concreto','Pó de Concreto','Terracota','Terracota Vitrificada','Vidro Tingido','Painel de Vidro Tingido','Caixa de Shulker','Cama','Vela','Banner'];cores.forEach(c=>tiposCor.forEach(t=>adicionar(`${t} ${c}`,'Cores')));
+const pedras=['Pedra','Pedregulho','Granito','Diorito','Andesito','Ardósia Profunda','Tufo','Arenito','Arenito Vermelho','Quartzo','Tijolos','Netherrack','Pedra do Fim','Purpur','Basalto','Bloco de Magma'];pedras.forEach(p=>['','Escadas de','Laje de','Muro de','Polido','Entalhado','Tijolos de'].forEach(s=>adicionar(s?`${s} ${p}`:p,'Mundo')));
+const minerios=['Ferro','Ouro','Diamante','Esmeralda','Carvão','Lápis-lazúli','Redstone','Netherita','Cobre'];minerios.forEach(m=>{adicionar(`Bloco de ${m}`,'Minérios');adicionar(`Minério de ${m}`,'Minérios');adicionar(`Minério de ${m} de Ardósia Profunda`,'Minérios')});
+['Bloco de Grama','Terra','Podzol','Micélio','Areia','Cascalho','Argila','Neve','Gelo','Bloco de Musgo','Cacto','Cana-de-açúcar','Bambu','Samambaia','Grama Curta','Girassol','Papoula','Dente-de-leão','Cogumelo Marrom','Cogumelo Vermelho','Folhas de Carvalho','Folhas de Pinheiro','Folhas de Bétula','Folhas de Selva','Folhas de Acácia','Folhas de Carvalho Escuro','Folhas de Mangue','Folhas de Cerejeira','Folhas de Carvalho Pálido'].forEach(n=>adicionar(n,'Natureza'));
+const blocos= dados.slice(0,1110);const concluidas=new Set(JSON.parse(localStorage.getItem('blocos-feitos')||'[]'));const $=id=>document.getElementById(id);
+$('total').textContent=`${blocos.length} blocos`;const categorias=[...new Set(blocos.map(b=>b.categoria))].sort();$('filtro').innerHTML='<option value="todas">Todas as categorias</option>'+categorias.map(c=>`<option>${c}</option>`).join('');
+function render(){let termo=$('busca').value.toLocaleLowerCase('pt-BR'),cat=$('filtro').value,ord=$('ordenacao').value;let lista=blocos.map((b,i)=>({...b,i,feita:concluidas.has(i)})).filter(b=>(!termo||b.nome.toLocaleLowerCase('pt-BR').includes(termo))&&(cat==='todas'||b.categoria===cat));lista.sort((a,b)=>ord==='za'?b.nome.localeCompare(a.nome,'pt-BR'):ord==='categoria'?a.categoria.localeCompare(b.categoria,'pt-BR')||a.nome.localeCompare(b.nome,'pt-BR'):ord==='pendentes'?Number(a.feita)-Number(b.feita)||a.nome.localeCompare(b.nome,'pt-BR'):a.nome.localeCompare(b.nome,'pt-BR'));$('visiveis').textContent=`${lista.length} visíveis`;$('progresso').textContent=`${concluidas.size} feitas`;$('vazio').classList.toggle('visible',!lista.length);$('lista').innerHTML=lista.map(b=>`<article class="card ${b.feita?'feita':''}"><div class="card-top"><span class="nome">${b.nome}</span><input class="marcar" type="checkbox" title="Marcar como feita" data-id="${b.i}" ${b.feita?'checked':''}></div><span class="categoria">${b.categoria}</span><div class="card-bottom"><span>${b.feita?'Concluído':'Pendente'}</span><span>#${b.i+1}</span></div></article>`).join('');document.querySelectorAll('.marcar').forEach(c=>c.onchange=()=>{let id=Number(c.dataset.id);c.checked?concluidas.add(id):concluidas.delete(id);localStorage.setItem('blocos-feitos',JSON.stringify([...concluidas]));render()})}
+['busca','filtro','ordenacao'].forEach(id=>$(id).addEventListener(id==='busca'?'input':'change',render));render();
+</script>
+</body>
+</html>
