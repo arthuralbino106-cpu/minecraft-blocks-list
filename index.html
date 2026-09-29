@@ -5,224 +5,551 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lista de Blocos do Minecraft</title>
   <style>
-    :root{ --bg:#0b1220; --panel:#121a2b; --card:#172238; --text:#f1f5f9; --muted:#9caec8; --accent:#7c9cff; --ok:#58d68d; --border:rgba(255,255,255,.1); }
-    *{ box-sizing:border-box; }
+    @import url('https://fonts.googleapis.com/css2?family=Minecraft:wght@400;700&display=swap');
+    
+    :root{
+      --bg-primary:#1a1a1a;
+      --bg-secondary:#2d2d2d;
+      --bg-tertiary:#404040;
+      --accent-green:#6ee7b7;
+      --accent-gold:#ffd700;
+      --accent-red:#ff6b6b;
+      --accent-blue:#4ecdc4;
+      --text-primary:#f0f0f0;
+      --text-secondary:#b0b0b0;
+      --border-color:#3a3a3a;
+      --minecraft-grass:#90ee90;
+      --minecraft-dirt:#8b7355;
+      --minecraft-stone:#808080;
+    }
+    
+    *{ box-sizing:border-box; margin:0; padding:0; }
+    
     body{
-      margin:0; padding:24px; background:linear-gradient(180deg,#07101d,#0b1220); color:var(--text);
-      font-family:Arial, Helvetica, sans-serif; min-height:100vh;
+      background:linear-gradient(135deg, var(--bg-primary) 0%, #1a2634 100%);
+      color:var(--text-primary);
+      font-family:'Minecraft', Arial, sans-serif;
+      min-height:100vh;
+      padding:20px;
     }
-    .container{ max-width:1280px; margin:auto; }
+    
+    .container{ max-width:1400px; margin:0 auto; }
+    
     header{
-      display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:20px;
+      background:linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+      border:3px solid var(--border-color);
+      border-radius:8px;
+      padding:24px;
+      margin-bottom:24px;
+      box-shadow:0 8px 16px rgba(0,0,0,0.5);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:20px;
     }
-    h1{ margin:0; font-size:clamp(1.8rem,4vw,3rem); }
-    .stats{ display:flex; gap:10px; flex-wrap:wrap; }
-    .badge{
-      padding:9px 13px; border:1px solid var(--border); border-radius:999px; background:#182441; color:var(--muted);
+    
+    h1{
+      font-size:2.5rem;
+      color:var(--accent-gold);
+      text-shadow:2px 2px 4px rgba(0,0,0,0.8);
+      letter-spacing:2px;
     }
-    .controls{
-      display:grid; grid-template-columns:1.5fr 1fr 1fr; gap:14px; padding:16px;
-      border:1px solid var(--border); border-radius:18px; background:var(--panel); margin-bottom:20px;
+    
+    .stats-container{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
     }
-    .field{ display:flex; flex-direction:column; gap:8px; }
-    label{
-      font-size:.75rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted);
+    
+    .stat-badge{
+      background:var(--bg-tertiary);
+      border:2px solid var(--accent-green);
+      color:var(--accent-green);
+      padding:10px 16px;
+      border-radius:6px;
+      font-weight:bold;
+      text-shadow:1px 1px 2px rgba(0,0,0,0.5);
+      min-width:120px;
+      text-align:center;
     }
+    
+    .controls-section{
+      background:var(--bg-secondary);
+      border:2px solid var(--border-color);
+      border-radius:8px;
+      padding:20px;
+      margin-bottom:24px;
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+      gap:16px;
+    }
+    
+    .control-group{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    
+    .control-group label{
+      font-size:0.9rem;
+      color:var(--accent-gold);
+      text-transform:uppercase;
+      letter-spacing:1px;
+      font-weight:bold;
+    }
+    
     input, select{
-      width:100%; padding:12px 14px; border:1px solid var(--border); border-radius:11px;
-      background:#0b1425; color:var(--text); font-size:1rem;
+      background:var(--bg-tertiary);
+      border:2px solid var(--border-color);
+      color:var(--text-primary);
+      padding:10px 12px;
+      border-radius:6px;
+      font-size:1rem;
+      font-family:'Minecraft', Arial, sans-serif;
+      transition:border-color 0.3s;
     }
-    .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
-    .card{
-      background:linear-gradient(180deg,#15223a,#111b2e); border:1px solid var(--border); border-radius:15px; overflow:hidden; transition:.2s;
+    
+    input:focus, select:focus{
+      outline:none;
+      border-color:var(--accent-green);
+      box-shadow:0 0 8px rgba(110, 231, 183, 0.3);
     }
-    .card:hover{ transform:translateY(-3px); border-color:var(--accent); }
-    .card.feita{ border-color:var(--ok); opacity:.7; }
-    .card-top{
-      display:flex; justify-content:space-between; align-items:flex-start; gap:12px; padding:14px; border-bottom:1px solid var(--border);
+    
+    .action-buttons{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:16px;
+      grid-column:1/-1;
     }
-    .nome{ font-weight:bold; line-height:1.35; }
-    .categoria{
-      margin:12px 14px 10px; display:inline-block; padding:5px 9px; border-radius:999px; background:#163329;
-      color:#b9f6d0; font-size:.7rem; text-transform:uppercase;
+    
+    button{
+      background:linear-gradient(180deg, var(--bg-tertiary) 0%, var(--bg-secondary) 100%);
+      border:2px solid var(--accent-green);
+      color:var(--accent-green);
+      padding:12px 20px;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:bold;
+      font-family:'Minecraft', Arial, sans-serif;
+      transition:all 0.3s;
+      text-transform:uppercase;
+      letter-spacing:1px;
     }
-    .card-bottom{
-      display:flex; justify-content:space-between; align-items:center; padding:0 14px 14px; color:var(--muted); font-size:.82rem;
+    
+    button:hover{
+      background:var(--accent-green);
+      color:var(--bg-primary);
+      box-shadow:0 0 12px rgba(110, 231, 183, 0.5);
     }
-    .marcar{ cursor:pointer; accent-color:var(--ok); width:18px; height:18px; }
-    .empty{
-      display:none; padding:28px; text-align:center; color:var(--muted); border:1px solid var(--border); border-radius:15px; background:var(--panel);
+    
+    button.limpar{
+      border-color:var(--accent-red);
+      color:var(--accent-red);
     }
-    .empty.visible{ display:block; }
-    @media(max-width:760px){ .controls{ grid-template-columns:1fr; } body{ padding:16px; } }
+    
+    button.limpar:hover{
+      background:var(--accent-red);
+      color:white;
+      box-shadow:0 0 12px rgba(255, 107, 107, 0.5);
+    }
+    
+    .blocos-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+      gap:16px;
+      margin-bottom:40px;
+    }
+    
+    .bloco-card{
+      background:linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+      border:2px solid var(--border-color);
+      border-radius:8px;
+      overflow:hidden;
+      transition:all 0.3s;
+      box-shadow:0 4px 8px rgba(0,0,0,0.3);
+      position:relative;
+    }
+    
+    .bloco-card:hover{
+      transform:translateY(-4px);
+      border-color:var(--accent-gold);
+      box-shadow:0 8px 16px rgba(255, 215, 0, 0.3);
+    }
+    
+    .bloco-card.concluido{
+      opacity:0.6;
+      border-color:var(--accent-green);
+      background:linear-gradient(135deg, rgba(110, 231, 183, 0.1) 0%, rgba(110, 231, 183, 0.05) 100%);
+    }
+    
+    .bloco-header{
+      background:var(--bg-tertiary);
+      border-bottom:2px solid var(--border-color);
+      padding:14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+    }
+    
+    .bloco-nome{
+      font-weight:bold;
+      font-size:1rem;
+      line-height:1.4;
+      flex:1;
+      word-break:break-word;
+      color:var(--accent-gold);
+    }
+    
+    .checkbox-wrapper{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:24px;
+      height:24px;
+      cursor:pointer;
+    }
+    
+    .checkbox-wrapper input{
+      width:24px;
+      height:24px;
+      cursor:pointer;
+      accent-color:var(--accent-green);
+    }
+    
+    .bloco-categoria{
+      display:inline-block;
+      background:var(--bg-secondary);
+      border:1px solid var(--accent-blue);
+      color:var(--accent-blue);
+      padding:6px 10px;
+      border-radius:4px;
+      font-size:0.75rem;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+      font-weight:bold;
+      margin:12px 14px 0;
+    }
+    
+    .bloco-info{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:0 14px 14px;
+      color:var(--text-secondary);
+      font-size:0.85rem;
+    }
+    
+    .bloco-status{
+      font-weight:bold;
+      color:var(--accent-green);
+    }
+    
+    .bloco-status.pendente{
+      color:var(--accent-red);
+    }
+    
+    .bloco-id{
+      opacity:0.7;
+    }
+    
+    .empty-state{
+      display:none;
+      background:linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+      border:2px dashed var(--border-color);
+      border-radius:8px;
+      padding:48px 24px;
+      text-align:center;
+      color:var(--text-secondary);
+      font-size:1.2rem;
+      margin-top:40px;
+    }
+    
+    .empty-state.ativo{
+      display:block;
+    }
+    
+    .empty-state::before{
+      content:'⚔️';
+      display:block;
+      font-size:3rem;
+      margin-bottom:16px;
+    }
+    
+    .progresso-bar{
+      background:var(--bg-secondary);
+      border:2px solid var(--border-color);
+      border-radius:8px;
+      padding:16px;
+      margin-bottom:24px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    
+    .progresso-texto{
+      display:flex;
+      justify-content:space-between;
+      font-weight:bold;
+      color:var(--accent-green);
+    }
+    
+    .progresso-barra{
+      width:100%;
+      height:20px;
+      background:var(--bg-tertiary);
+      border:1px solid var(--border-color);
+      border-radius:4px;
+      overflow:hidden;
+    }
+    
+    .progresso-preenchido{
+      height:100%;
+      background:linear-gradient(90deg, var(--accent-green) 0%, var(--accent-blue) 100%);
+      transition:width 0.3s ease;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--bg-primary);
+      font-size:0.75rem;
+      font-weight:bold;
+    }
+    
+    @media(max-width:768px){
+      h1{ font-size:1.8rem; }
+      header{ flex-direction:column; align-items:flex-start; }
+      .controls-section{ grid-template-columns:1fr; }
+      .blocos-grid{ grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>Lista de Blocos do Minecraft</h1>
-      <div class="stats">
-        <span class="badge" id="total">0 blocos</span>
-        <span class="badge" id="progresso">0 feitas</span>
-        <span class="badge" id="visiveis">0 visíveis</span>
+      <h1>⛏️ Blocos do Minecraft</h1>
+      <div class="stats-container">
+        <div class="stat-badge">
+          <div style="font-size:0.8rem; opacity:0.8;">TOTAL</div>
+          <div id="total" style="font-size:1.4rem;">0</div>
+        </div>
+        <div class="stat-badge" style="border-color:var(--accent-red); color:var(--accent-red);">
+          <div style="font-size:0.8rem; opacity:0.8;">PENDENTES</div>
+          <div id="pendentes" style="font-size:1.4rem;">0</div>
+        </div>
+        <div class="stat-badge" style="border-color:var(--accent-green); color:var(--accent-green);">
+          <div style="font-size:0.8rem; opacity:0.8;">CONCLUÍDOS</div>
+          <div id="concluidos" style="font-size:1.4rem;">0</div>
+        </div>
+        <div class="stat-badge" style="border-color:var(--accent-blue); color:var(--accent-blue);">
+          <div style="font-size:0.8rem; opacity:0.8;">VISÍVEIS</div>
+          <div id="visiveis" style="font-size:1.4rem;">0</div>
+        </div>
       </div>
     </header>
 
-    <section class="controls">
-      <div class="field">
-        <label for="busca">Pesquisar bloco</label>
-        <input id="busca" placeholder="Ex.: diamante, redstone, carvalho...">
+    <div class="progresso-bar">
+      <div class="progresso-texto">
+        <span>PROGRESSO DE COLETA</span>
+        <span id="progresso-percent">0%</span>
       </div>
-      <div class="field">
-        <label for="filtro">Categoria</label>
+      <div class="progresso-barra">
+        <div class="progresso-preenchido" id="progresso-preenchido" style="width:0%">
+          <span id="progresso-texto"></span>
+        </div>
+      </div>
+    </div>
+
+    <section class="controls-section">
+      <div class="control-group">
+        <label for="busca">🔍 Pesquisar</label>
+        <input id="busca" type="text" placeholder="Ex: diamante, redstone...">
+      </div>
+      <div class="control-group">
+        <label for="filtro">🏷️ Categoria</label>
         <select id="filtro">
           <option value="todas">Todas as categorias</option>
         </select>
       </div>
-      <div class="field">
-        <label for="ordenacao">Ordenar</label>
+      <div class="control-group">
+        <label for="ordenacao">📋 Ordenar</label>
         <select id="ordenacao">
           <option value="az">Nome A-Z</option>
           <option value="za">Nome Z-A</option>
-          <option value="categoria">Categoria</option>
-          <option value="pendentes">Não marcadas primeiro</option>
+          <option value="categoria">Por Categoria</option>
+          <option value="pendentes">Pendentes Primeiro</option>
         </select>
+      </div>
+      <div class="control-group">
+        <label for="filtro-status">📊 Status</label>
+        <select id="filtro-status">
+          <option value="todos">Todos</option>
+          <option value="pendentes">Apenas Pendentes</option>
+          <option value="concluidos">Apenas Concluídos</option>
+        </select>
+      </div>
+      <div class="action-buttons">
+        <button id="btn-limpar" class="limpar">🗑️ Limpar Tudo</button>
+        <button id="btn-marcar-tudo">✅ Marcar Tudo Visível</button>
       </div>
     </section>
 
-    <div id="vazio" class="empty">Nenhum bloco encontrado.</div>
-    <main id="lista" class="grid"></main>
+    <div class="empty-state" id="empty-state">Nenhum bloco encontrado com esses filtros.</div>
+    <div class="blocos-grid" id="blocos-grid"></div>
   </div>
 
   <script>
-    const adicionar = (lista, nome, categoria) => lista.push({ nome, categoria });
-
-    function gerarBlocosMaisReais(){
+    function gerarBlocosMC(){
       const lista = [];
+      const add = (nome, cat) => lista.push({ nome, categoria: cat });
 
-      // 1) Fabricação
-      [
-        'Mesa de Trabalho', 'Fornalha', 'Bigorna', 'Bigorna Danificada', 'Bigorna Muito Danificada',
-        'Fogueira', 'Fogueira das Almas', 'Alto-forno', 'Defumador', 'Suporte de Poções',
-        'Rebolo', 'Mesa de Encantamentos', 'Mesa de Cartografia', 'Mesa de Arco e Flecha',
-        'Mesa de Ferraria', 'Cortador de Pedras', 'Tecelão', 'Bancada de Trabalho', 'Mesa de Costura'
-      ].forEach(n => adicionar(lista, n, 'Fabricação'));
+      // FABRICAÇÃO
+      ['Mesa de Trabalho','Fornalha','Bigorna','Bigorna Danificada','Bigorna Muito Danificada',
+       'Fogueira','Fogueira das Almas','Alto-forno','Defumador','Suporte de Poções',
+       'Rebolo','Mesa de Encantamentos','Mesa de Cartografia','Mesa de Arco e Flecha',
+       'Mesa de Ferraria','Cortador de Pedras','Tecelão','Bancada de Trabalho','Mesa de Costura']
+        .forEach(n => add(n, 'Fabricação'));
 
-      // 2) Madeira
-      const madeiras = ['Carvalho', 'Pinheiro', 'Bétula', 'Selva', 'Acácia', 'Carvalho Escuro', 'Mangue', 'Cerejeira', 'Carvalho Pálido', 'Bambu', 'Carmesim', 'Distorcido'];
-      const tiposMadeira = ['Tábuas', 'Tronco', 'Madeira', 'Tronco Descascado', 'Madeira Descascada', 'Escadas', 'Laje', 'Cerca', 'Portão de Cerca', 'Porta', 'Alçapão', 'Placa de Pressão', 'Botão', 'Placa', 'Prateleira'];
-      madeiras.forEach(m => tiposMadeira.forEach(t => adicionar(lista, `${m} ${t}`, 'Construção')));
+      // MADEIRAS
+      const madeiras=['Carvalho','Pinheiro','Bétula','Selva','Acácia','Carvalho Escuro','Mangue','Cerejeira','Carvalho Pálido','Bambu','Carmesim','Distorcido'];
+      const tiposMadeira=['Tábuas','Tronco','Madeira','Tronco Descascado','Madeira Descascada','Escadas','Laje','Cerca','Portão de Cerca','Porta','Alçapão','Placa de Pressão','Botão','Placa','Prateleira'];
+      madeiras.forEach(m => tiposMadeira.forEach(t => add(`${m} ${t}`, 'Madeira')));
 
-      // 3) Redstone
-      [
-        'Pó de Redstone', 'Bloco de Redstone', 'Tocha de Redstone', 'Repetidor de Redstone',
-        'Comparador de Redstone', 'Funil', 'Ejetor', 'Distribuidor', 'Fabricador', 'Pistão',
-        'Pistão Grudento', 'TNT', 'Lâmpada de Redstone', 'Alvo', 'Observador', 'Sensor de Luz Solar',
-        'Gancho de Armadilha', 'Alavanca', 'Trilho', 'Trilho Energizado', 'Trilho Detector', 'Trilho Ativador',
-        'Alçapão de Ferro', 'Porta de Ferro', 'Botão de Redstone', 'Comutador de Redstone', 'Bloco de Redstone Luz', 'Bateria de Redstone'
-      ].forEach(n => adicionar(lista, n, 'Redstone'));
+      // REDSTONE
+      ['Pó de Redstone','Bloco de Redstone','Tocha de Redstone','Repetidor de Redstone','Comparador de Redstone',
+       'Funil','Ejetor','Distribuidor','Fabricador','Pistão','Pistão Grudento','TNT','Lâmpada de Redstone',
+       'Alvo','Observador','Sensor de Luz Solar','Gancho de Armadilha','Alavanca','Trilho','Trilho Energizado',
+       'Trilho Detector','Trilho Ativador','Alçapão de Ferro','Porta de Ferro','Botão de Redstone','Comutador de Redstone']
+        .forEach(n => add(n, 'Redstone'));
 
-      // 4) Cores
-      const cores = ['Branco', 'Laranja', 'Magenta', 'Azul-claro', 'Amarelo', 'Verde-limão', 'Rosa', 'Cinza', 'Cinza-claro', 'Ciano', 'Roxo', 'Azul', 'Marrom', 'Verde', 'Vermelho', 'Preto'];
-      const tiposCor = ['Lã', 'Carpete', 'Concreto', 'Pó de Concreto', 'Terracota', 'Terracota Vitrificada', 'Vidro Tingido', 'Painel de Vidro Tingido', 'Caixa de Shulker', 'Cama', 'Vela', 'Banner'];
-      cores.forEach(c => tiposCor.forEach(t => adicionar(lista, `${t} ${c}`, 'Cores')));
+      // CORES
+      const cores=['Branco','Laranja','Magenta','Azul-claro','Amarelo','Verde-limão','Rosa','Cinza','Cinza-claro','Ciano','Roxo','Azul','Marrom','Verde','Vermelho','Preto'];
+      const tiposCor=['Lã','Carpete','Concreto','Pó de Concreto','Terracota','Terracota Vitrificada','Vidro Tingido','Painel de Vidro Tingido','Caixa de Shulker','Cama','Vela','Banner'];
+      cores.forEach(c => tiposCor.forEach(t => add(`${t} ${c}`, 'Cores')));
 
-      // 5) Mundo / mineração / terreno
-      const pedras = ['Pedra', 'Pedregulho', 'Granito', 'Diorito', 'Andesito', 'Ardósia Profunda', 'Tufo', 'Arenito', 'Arenito Vermelho', 'Quartzo', 'Tijolos', 'Netherrack', 'Pedra do Fim', 'Purpur', 'Basalto', 'Bloco de Magma'];
-      pedras.forEach(p => ['', 'Escadas de', 'Laje de', 'Muro de', 'Polido', 'Entalhado', 'Tijolos de'].forEach(s => adicionar(lista, s ? `${s} ${p}` : p, 'Mundo')));
+      // MUNDO/PEDRAS
+      const pedras=['Pedra','Pedregulho','Granito','Diorito','Andesito','Ardósia Profunda','Tufo','Arenito','Arenito Vermelho','Quartzo','Tijolos','Netherrack','Pedra do Fim','Purpur','Basalto','Bloco de Magma'];
+      pedras.forEach(p => ['','Escadas de','Laje de','Muro de','Polido','Entalhado','Tijolos de'].forEach(s => add(s ? `${s} ${p}` : p, 'Mundo')));
 
-      // 6) Minérios e metais
-      const minerios = ['Ferro', 'Ouro', 'Diamante', 'Esmeralda', 'Carvão', 'Lápis-lazúli', 'Redstone', 'Netherita', 'Cobre'];
+      // MINÉRIOS
+      const minerios=['Ferro','Ouro','Diamante','Esmeralda','Carvão','Lápis-lazúli','Redstone','Netherita','Cobre'];
       minerios.forEach(m => {
-        adicionar(lista, `Bloco de ${m}`, 'Minérios');
-        adicionar(lista, `Minério de ${m}`, 'Minérios');
-        adicionar(lista, `Minério de ${m} de Ardósia Profunda`, 'Minérios');
-        adicionar(lista, `Escadas de ${m}`, 'Minérios');
+        add(`Bloco de ${m}`, 'Minérios');
+        add(`Minério de ${m}`, 'Minérios');
+        add(`Minério de ${m} de Ardósia Profunda`, 'Minérios');
       });
 
-      // 7) Natureza e vegetação
-      const naturezaBase = [
-        'Bloco de Grama', 'Terra', 'Podzol', 'Micélio', 'Areia', 'Cascalho', 'Argila', 'Neve', 'Gelo',
-        'Bloco de Musgo', 'Cacto', 'Cana-de-açúcar', 'Bambu', 'Samambaia', 'Grama Curta', 'Girassol',
-        'Papoula', 'Dente-de-leão', 'Cogumelo Marrom', 'Cogumelo Vermelho', 'Folhas de Carvalho',
-        'Folhas de Pinheiro', 'Folhas de Bétula', 'Folhas de Selva', 'Folhas de Acácia',
-        'Folhas de Carvalho Escuro', 'Folhas de Mangue', 'Folhas de Cerejeira', 'Folhas de Carvalho Pálido',
-        'Flor Azul', 'Flor Laranja', 'Violeta', 'Dandelion', 'Azaléia', 'Papoula Vermelha', 'Lírio do Vale', 'Roseta', 'Margarida', 'Poção de Flor'
-      ];
-      naturezaBase.forEach(n => adicionar(lista, n, 'Natureza'));
-      for (let i = 1; i <= 15; i++) {
-        naturezaBase.forEach(n => adicionar(lista, `${n} Variante ${i}`, 'Natureza'));
-      }
+      // NATUREZA
+      const natureza=['Bloco de Grama','Terra','Podzol','Micélio','Areia','Cascalho','Argila','Neve','Gelo',
+       'Bloco de Musgo','Cacto','Cana-de-açúcar','Bambu','Samambaia','Grama Curta','Girassol','Papoula','Dente-de-leão',
+       'Cogumelo Marrom','Cogumelo Vermelho','Folhas de Carvalho','Folhas de Pinheiro','Folhas de Bétula','Folhas de Selva',
+       'Folhas de Acácia','Folhas de Carvalho Escuro','Folhas de Mangue','Folhas de Cerejeira','Folhas de Carvalho Pálido',
+       'Flor Azul','Flor Laranja','Violeta','Azaléia','Papoula Vermelha','Lírio do Vale','Roseta','Margarida'];
+      natureza.forEach(n => add(n, 'Natureza'));
+      for(let i=1;i<=10;i++) natureza.forEach(n => add(`${n} Variante ${i}`, 'Natureza'));
 
-      // 8) Decorativos e blocos especiais
-      [
-        'Ametista Bruta', 'Bloco de Ametista', 'Cristal de Ametista', 'Calcita', 'Cobre Oxidado', 'Cobre Exposto', 'Cobre Aquecido', 'Cobre Enferrujado',
-        'Mar de Água', 'Mar Correndo', 'Luz de Fosforescente', 'Corda', 'Viga', 'Painel de Madeira', 'Lampada', 'Lâmpada de Sombra', 'Sino', 'Estátua',
-        'Mármore', 'Granito Polido', 'Andesito Polido', 'Diorito Polido', 'Pedra do Fim Polida', 'Pedra de Basalto', 'Gelo Brilhante', 'Moldura de Vidro', 'Mesa de Pátio'
-      ].forEach(n => adicionar(lista, n, 'Decorativos'));
+      // DECORATIVOS
+      ['Ametista Bruta','Bloco de Ametista','Cristal de Ametista','Calcita','Cobre Oxidado','Cobre Exposto','Lâmpada de Luz','Sino',
+       'Mármore','Granito Polido','Andesito Polido','Diorito Polido','Gelo Brilhante','Moldura de Vidro','Luminária','Quadro']
+        .forEach(n => add(n, 'Decorativos'));
 
-      // 9) Nether e End
-      [
-        'Bloco de Netherita', 'Pedra do Nether', 'Tijolos do Nether', 'Tijolos de Netherita', 'Quartz do Nether', 'Bloco de Quartzo', 'Fumaça do Nether', 'Bloco de Basalto',
-        'Tijolos de Basalto', 'Tijolos de Pedra do Fim', 'Pedra do Fim', 'Pilar do Fim', 'Esmeralda do Fim', 'Bloco de Esmeralda', 'Portal do End', 'Pilar do End'
-      ].forEach(n => adicionar(lista, n, 'Nether / Fim'));
+      // NETHER/FIM
+      ['Bloco de Netherita','Pedra do Nether','Tijolos do Nether','Quartz do Nether','Bloco de Quartzo','Pedra do Fim',
+       'Tijolos de Pedra do Fim','Pilar do Fim','Portal do End','Pilar do End','Esmeralda do Fim','Bloco de Esmeralda']
+        .forEach(n => add(n, 'Nether / Fim'));
 
       return lista;
     }
 
-    const blocos = gerarBlocosMaisReais();
-    const concluidas = new Set(JSON.parse(localStorage.getItem('blocos-feitos') || '[]'));
-    const $ = id => document.getElementById(id);
+    const blocos = gerarBlocosMC();
+    const marcadas = new Set(JSON.parse(localStorage.getItem('blocos-marcados') || '[]'));
+    const $=(id) => document.getElementById(id);
 
-    $('total').textContent = `${blocos.length} blocos`;
-
+    $('total').textContent = blocos.length;
+    
     const categorias = [...new Set(blocos.map(b => b.categoria))].sort();
     $('filtro').innerHTML = '<option value="todas">Todas as categorias</option>' + categorias.map(c => `<option>${c}</option>`).join('');
 
+    function salvar(){ localStorage.setItem('blocos-marcados', JSON.stringify([...marcadas])); }
+
     function render(){
-      const termo = $('busca').value.toLocaleLowerCase('pt-BR');
+      const termo = $('busca').value.toLowerCase();
       const cat = $('filtro').value;
-      const ord = $('ordenacao').value;
+      const ordem = $('ordenacao').value;
+      const status = $('filtro-status').value;
 
-      let lista = blocos
-        .map((b, i) => ({ ...b, i, feita: concluidas.has(i) }))
-        .filter(b => (!termo || b.nome.toLocaleLowerCase('pt-BR').includes(termo)) && (cat === 'todas' || b.categoria === cat));
+      let lista = blocos.map((b,i) => ({...b, i, marcado: marcadas.has(i)}))
+        .filter(b => (!termo || b.nome.toLowerCase().includes(termo)) && (cat==='todas' || b.categoria===cat));
 
-      if (ord === 'za') lista.sort((a,b) => b.nome.localeCompare(a.nome, 'pt-BR'));
-      else if (ord === 'categoria') lista.sort((a,b) => a.categoria.localeCompare(b.categoria, 'pt-BR') || a.nome.localeCompare(b.nome, 'pt-BR'));
-      else if (ord === 'pendentes') lista.sort((a,b) => Number(a.feita) - Number(b.feita) || a.nome.localeCompare(b.nome, 'pt-BR'));
-      else lista.sort((a,b) => a.nome.localeCompare(b.nome, 'pt-BR'));
+      if(status==='pendentes') lista = lista.filter(b => !b.marcado);
+      else if(status==='concluidos') lista = lista.filter(b => b.marcado);
 
-      $('visiveis').textContent = `${lista.length} visíveis`;
-      $('progresso').textContent = `${concluidas.size} feitas`;
-      $('vazio').classList.toggle('visible', lista.length === 0);
+      if(ordem==='za') lista.sort((a,b) => b.nome.localeCompare(a.nome,'pt-BR'));
+      else if(ordem==='categoria') lista.sort((a,b) => a.categoria.localeCompare(b.categoria,'pt-BR') || a.nome.localeCompare(b.nome,'pt-BR'));
+      else if(ordem==='pendentes') lista.sort((a,b) => Number(a.marcado) - Number(b.marcado));
+      else lista.sort((a,b) => a.nome.localeCompare(b.nome,'pt-BR'));
 
-      $('lista').innerHTML = lista.map(b => `
-        <article class="card ${b.feita ? 'feita' : ''}">
-          <div class="card-top">
-            <span class="nome">${b.nome}</span>
-            <input class="marcar" type="checkbox" title="Marcar como feita" data-id="${b.i}" ${b.feita ? 'checked' : ''}>
+      const total = blocos.length;
+      const concluidos = marcadas.size;
+      const pendentes = total - concluidos;
+      const percentual = Math.round((concluidos / total) * 100);
+
+      $('concluidos').textContent = concluidos;
+      $('pendentes').textContent = pendentes;
+      $('visiveis').textContent = lista.length;
+      $('progresso-percent').textContent = `${percentual}%`;
+      $('progresso-preenchido').style.width = `${percentual}%`;
+      if(percentual > 0) $('progresso-texto').textContent = `${concluidos}/${total}`;
+
+      $('empty-state').classList.toggle('ativo', lista.length === 0);
+      $('blocos-grid').innerHTML = lista.map(b => `
+        <div class="bloco-card ${b.marcado ? 'concluido' : ''}">
+          <div class="bloco-header">
+            <span class="bloco-nome">${b.nome}</span>
+            <div class="checkbox-wrapper">
+              <input type="checkbox" data-id="${b.i}" ${b.marcado ? 'checked' : ''}>
+            </div>
           </div>
-          <span class="categoria">${b.categoria}</span>
-          <div class="card-bottom">
-            <span>${b.feita ? 'Concluído' : 'Pendente'}</span>
-            <span>#${b.i + 1}</span>
+          <span class="bloco-categoria">${b.categoria}</span>
+          <div class="bloco-info">
+            <span class="bloco-status ${b.marcado ? '' : 'pendente'}">${b.marcado ? '✓ Coletado' : '◯ Pendente'}</span>
+            <span class="bloco-id">#${b.i + 1}</span>
           </div>
-        </article>
+        </div>
       `).join('');
 
-      document.querySelectorAll('.marcar').forEach(c => {
+      document.querySelectorAll('input[type="checkbox"]').forEach(c => {
         c.onchange = () => {
           const id = Number(c.dataset.id);
-          if (c.checked) concluidas.add(id);
-          else concluidas.delete(id);
-          localStorage.setItem('blocos-feitos', JSON.stringify([...concluidas]));
+          c.checked ? marcadas.add(id) : marcadas.delete(id);
+          salvar();
           render();
         };
       });
     }
 
-    ['busca', 'filtro', 'ordenacao'].forEach(id => $(id).addEventListener(id === 'busca' ? 'input' : 'change', render));
+    $('btn-limpar').onclick = () => {
+      if(confirm('Tem certeza que deseja limpar TODOS os blocos marcados?')){
+        marcadas.clear();
+        salvar();
+        render();
+      }
+    };
+
+    $('btn-marcar-tudo').onclick = () => {
+      const termo = $('busca').value.toLowerCase();
+      const cat = $('filtro').value;
+      blocos.forEach((b,i) => {
+        if((!termo || b.nome.toLowerCase().includes(termo)) && (cat==='todas' || b.categoria===cat)){
+          marcadas.add(i);
+        }
+      });
+      salvar();
+      render();
+    };
+
+    ['busca','filtro','filtro-status','ordenacao'].forEach(id => $(id).addEventListener(id==='busca'?'input':'change', render));
     render();
   </script>
 </body>
