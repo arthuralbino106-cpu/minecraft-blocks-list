@@ -5,62 +5,530 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Checklist de Blocos do Minecraft</title>
   <style>
-    :root{--bg:#101820;--panel:#1d2935;--card:#263746;--text:#f4f7fb;--muted:#a9bac8;--gold:#ffd34e;--green:#62d995;--red:#ff7474;--blue:#66c7ff;--border:#405363}
-    *{box-sizing:border-box}body{margin:0;padding:20px;background:linear-gradient(135deg,#101820,#172b39);color:var(--text);font:15px Arial,sans-serif}.container{max-width:1400px;margin:auto}
-    header,.controls,.progress{background:linear-gradient(180deg,#273846,#1a2732);border:2px solid var(--border);border-radius:10px;box-shadow:0 6px 16px #0006}header{padding:22px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}h1{margin:0;color:var(--gold);font-size:clamp(1.8rem,4vw,2.8rem);text-shadow:2px 2px #000}.stats{display:flex;gap:8px;flex-wrap:wrap}.badge{min-width:92px;text-align:center;padding:9px 12px;border:1px solid var(--green);border-radius:6px;color:var(--green);background:#12201d}.badge strong{display:block;font-size:1.25rem;color:var(--text)}
-    .progress{padding:15px;margin-bottom:18px}.progress-line{display:flex;justify-content:space-between;color:var(--green);font-weight:bold;margin-bottom:8px}.bar{height:18px;background:#101820;border:1px solid var(--border);border-radius:5px;overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,var(--green),var(--blue));transition:.3s}
-    .controls{padding:16px;margin-bottom:18px;display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}label{color:var(--gold);font-weight:bold;font-size:.78rem;text-transform:uppercase}input,select,button{padding:11px;border:1px solid var(--border);border-radius:6px;background:#101820;color:var(--text);font-size:.95rem}button{cursor:pointer;border-color:var(--green);color:var(--green);font-weight:bold}button:hover{background:var(--green);color:#102018}.actions{display:flex;gap:10px;grid-column:1/-1;flex-wrap:wrap}.danger{border-color:var(--red);color:var(--red)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(245px,1fr));gap:14px}.card{background:linear-gradient(145deg,#2a3d4c,#1b2a35);border:2px solid var(--border);border-radius:9px;overflow:hidden;transition:.2s}.card:hover{transform:translateY(-3px);border-color:var(--gold)}.card.done{opacity:.62;border-color:var(--green)}.card-top{display:flex;align-items:center;gap:12px;padding:12px;border-bottom:1px solid var(--border)}.icon{width:64px;height:64px;object-fit:contain;image-rendering:pixelated;background:#111a20;border-radius:6px;padding:5px;flex:none}.icon-fallback{display:none;width:64px;height:64px;align-items:center;justify-content:center;background:#111a20;border-radius:6px;font-size:2rem}.name{font-weight:bold;color:var(--gold);line-height:1.3;word-break:break-word}.category{display:inline-block;margin:11px 12px 8px;padding:5px 8px;border:1px solid var(--blue);border-radius:4px;color:var(--blue);font-size:.7rem;text-transform:uppercase}.bottom{display:flex;justify-content:space-between;align-items:center;padding:0 12px 12px;color:var(--muted);font-size:.82rem}.check{width:19px;height:19px;accent-color:var(--green);cursor:pointer}.empty{display:none;text-align:center;padding:40px;color:var(--muted);border:2px dashed var(--border);border-radius:8px}.empty.show{display:block}
-    .credit{margin-top:20px;color:var(--muted);font-size:.8rem;text-align:center}.credit a{color:var(--blue)}
-    @media(max-width:900px){.controls{grid-template-columns:1fr 1fr}}@media(max-width:560px){body{padding:12px}.controls{grid-template-columns:1fr}.actions{grid-column:auto}}
+    :root {
+      --bg: #101820;
+      --panel: #1d2935;
+      --card: #263746;
+      --text: #f4f7fb;
+      --muted: #a9bac8;
+      --gold: #ffd34e;
+      --green: #62d995;
+      --red: #ff7474;
+      --blue: #66c7ff;
+      --border: #405363;
+      --shadow: rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #101820, #172b39);
+      color: var(--text);
+      font: 15px Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    header,
+    .controls,
+    .progress {
+      background: linear-gradient(180deg, #273846, #1a2732);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 6px 16px var(--shadow);
+    }
+
+    header {
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.8rem, 2vw, 2.6rem);
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .badge {
+      min-width: 110px;
+      padding: 10px 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.02);
+      display: inline-flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-weight: 700;
+      color: var(--gold);
+    }
+
+    .progress {
+      padding: 15px;
+      margin-bottom: 18px;
+    }
+
+    .progress-line {
+      display: flex;
+      justify-content: space-between;
+      color: var(--green);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .bar {
+      height: 18px;
+      background: #101820;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #62d995, #79ffc7);
+      border-radius: inherit;
+      transition: width 0.25s ease;
+    }
+
+    .controls {
+      padding: 16px;
+      margin-bottom: 18px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    label {
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    input,
+    select,
+    button {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      font: inherit;
+    }
+
+    input::placeholder {
+      color: var(--muted);
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      align-items: end;
+      grid-column: 1 / -1;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+    }
+
+    .danger {
+      border-color: rgba(255, 116, 116, 0.6);
+      color: #ffd0d0;
+    }
+
+    .empty {
+      display: none;
+      margin: 18px 0;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      background: rgba(255,255,255,0.02);
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(245px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      background: linear-gradient(145deg, #2a3d4c, #1b2a35);
+      border: 2px solid var(--border);
+      border-radius: 9px;
+      padding: 10px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+      transition: transform 0.14s ease, border-color 0.14s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(102, 199, 255, 0.7);
+    }
+
+    .card.done {
+      border-color: rgba(98, 217, 149, 0.6);
+      box-shadow: 0 0 0 1px rgba(98, 217, 149, 0.15);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 78px;
+    }
+
+    .icon-wrap {
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: rgba(16, 24, 32, 0.78);
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .icon {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.35));
+      padding: 6px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08), rgba(255,255,255,0));
+    }
+
+    .card-body {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-copy {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .card-name {
+      font-weight: 700;
+      line-height: 1.3;
+      word-break: break-word;
+      color: var(--text);
+    }
+
+    .card-meta {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .check-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .check {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--green);
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .credit {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .credit a {
+      color: var(--blue);
+    }
+
+    @media (max-width: 900px) {
+      .controls { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 12px; }
+      .controls { grid-template-columns: 1fr; }
+      .actions { grid-column: auto; }
+      .actions { flex-direction: column; }
+      .card-top { gap: 10px; }
+      .icon-wrap { width: 48px; height: 48px; }
+    }
   </style>
 </head>
 <body>
 <div class="container">
-  <header><h1>⛏️ Checklist de Blocos</h1><div class="stats"><div class="badge">TOTAL<strong id="total">0</strong></div><div class="badge" style="border-color:var(--red);color:var(--red)">PENDENTES<strong id="pending">0</strong></div><div class="badge">FEITOS<strong id="done">0</strong></div><div class="badge" style="border-color:var(--blue);color:var(--blue)">VISÍVEIS<strong id="visible">0</strong></div></div></header>
-  <section class="progress"><div class="progress-line"><span>PROGRESSO DA COLEÇÃO</span><span id="percent">0%</span></div><div class="bar"><div id="fill" class="fill"></div></div></section>
+  <header>
+    <h1>⛏️ Checklist de Blocos</h1>
+    <div class="stats">
+      <div class="badge">TOTAL<strong id="total">0</strong></div>
+      <div class="badge" style="border-color:var(--red);color:var(--red)">PENDENTES<strong id="pending">0</strong></div>
+      <div class="badge" style="border-color:var(--green);color:var(--green)">FEITOS<strong id="done">0</strong></div>
+      <div class="badge" style="border-color:var(--blue);color:var(--blue)">VISÍVEIS<strong id="visible">0</strong></div>
+    </div>
+  </header>
+
+  <section class="progress">
+    <div class="progress-line"><span>PROGRESSO DA COLEÇÃO</span><span id="percent">0%</span></div>
+    <div class="bar"><div id="fill" class="fill"></div></div>
+  </section>
+
   <section class="controls">
     <div class="field"><label for="search">🔍 Pesquisar</label><input id="search" placeholder="Ex.: diamante, carvalho, redstone..."></div>
     <div class="field"><label for="category">🏷️ Categoria</label><select id="category"><option value="Todas">Todas</option></select></div>
     <div class="field"><label for="status">📊 Status</label><select id="status"><option value="todos">Todos</option><option value="pendentes">Pendentes</option><option value="feitos">Feitos</option></select></div>
     <div class="field"><label for="sort">📋 Ordenar</label><select id="sort"><option value="az">Nome A-Z</option><option value="za">Nome Z-A</option><option value="categoria">Categoria</option><option value="pendentes">Pendentes primeiro</option></select></div>
-    <div class="actions"><button id="mark">✅ Marcar visíveis</button><button id="clear" class="danger">🗑️ Limpar marcações</button></div>
+    <div class="actions">
+      <button id="mark" type="button">✅ Marcar visíveis</button>
+      <button id="clear" class="danger" type="button">🗑️ Limpar marcações</button>
+    </div>
   </section>
-  <div id="empty" class="empty">Nenhum bloco encontrado.</div><main id="grid" class="grid"></main>
+
+  <div id="empty" class="empty">Nenhum bloco encontrado.</div>
+  <main id="grid" class="grid"></main>
+
   <p class="credit">Imagens carregadas da <a href="https://minecraft.wiki" target="_blank" rel="noopener">Minecraft Wiki</a>. Projeto de fã, não oficial da Mojang.</p>
 </div>
-<script>
-  const blocks=[];
-  const add=(name,category,slug)=>blocks.push({name,category,slug});
-  const woods=[['Carvalho','Oak'],['Pinheiro','Spruce'],['Bétula','Birch'],['Selva','Jungle'],['Acácia','Acacia'],['Carvalho Escuro','Dark_Oak'],['Mangue','Mangrove'],['Cerejeira','Cherry'],['Carvalho Pálido','Pale_Oak'],['Bambu','Bamboo'],['Carmesim','Crimson'],['Distorcido','Warped']];
-  const woodTypes=[['Tábuas','Planks'],['Tronco','Log'],['Madeira','Wood'],['Tronco Descascado','Stripped_Log'],['Madeira Descascada','Stripped_Wood'],['Escadas','Stairs'],['Laje','Slab'],['Cerca','Fence'],['Portão de Cerca','Fence_Gate'],['Porta','Door'],['Alçapão','Trapdoor'],['Placa de Pressão','Pressure_Plate'],['Botão','Button'],['Placa','Sign'],['Prateleira','Shelf']];
-  ['Mesa de Trabalho','Fornalha','Bigorna','Bigorna Danificada','Fogueira','Fogueira das Almas','Alto-forno','Defumador','Suporte de Poções','Rebolo','Mesa de Encantamentos','Mesa de Cartografia','Mesa de Arco e Flecha','Mesa de Ferraria','Cortador de Pedras','Tecelão','Fabricador'].forEach(n=>add(n,'Fabricação',n.replaceAll(' ','_')));
-  woods.forEach(([pt,en])=>woodTypes.forEach(([type,slug])=>add(`${pt} ${type}`,'Madeira',`${en}_${slug}`)));
-  [['Pó de Redstone','Redstone_Dust'],['Bloco de Redstone','Block_of_Redstone'],['Tocha de Redstone','Redstone_Torch'],['Repetidor de Redstone','Redstone_Repeater'],['Comparador de Redstone','Redstone_Comparator'],['Funil','Hopper'],['Ejetor','Dropper'],['Distribuidor','Dispenser'],['Fabricador','Crafter'],['Pistão','Piston'],['Pistão Grudento','Sticky_Piston'],['TNT','TNT'],['Lâmpada de Redstone','Redstone_Lamp'],['Alvo','Target'],['Observador','Observer'],['Sensor de Luz Solar','Daylight_Detector'],['Gancho de Armadilha','Tripwire_Hook'],['Alavanca','Lever'],['Trilho','Rail'],['Trilho Energizado','Powered_Rail'],['Trilho Detector','Detector_Rail'],['Trilho Ativador','Activator_Rail'],['Alçapão de Ferro','Iron_Trapdoor'],['Porta de Ferro','Iron_Door']].forEach(([n,s])=>add(n,'Redstone',s));
-  const colors=[['Branco','White'],['Laranja','Orange'],['Magenta','Magenta'],['Azul-claro','Light_Blue'],['Amarelo','Yellow'],['Verde-limão','Lime'],['Rosa','Pink'],['Cinza','Gray'],['Cinza-claro','Light_Gray'],['Ciano','Cyan'],['Roxo','Purple'],['Azul','Blue'],['Marrom','Brown'],['Verde','Green'],['Vermelho','Red'],['Preto','Black']];
-  const colorTypes=[['Lã','Wool'],['Carpete','Carpet'],['Concreto','Concrete'],['Pó de Concreto','Concrete_Powder'],['Terracota','Terracotta'],['Terracota Vitrificada','Glazed_Terracotta'],['Vidro Tingido','Stained_Glass'],['Painel de Vidro Tingido','Stained_Glass_Pane'],['Caixa de Shulker','Shulker_Box'],['Cama','Bed'],['Vela','Candle'],['Banner','Banner']];
-  colors.forEach(([pt,en])=>colorTypes.forEach(([type,slug])=>add(`${type} ${pt}`,'Cores',`${en}_${slug}`)));
-  const stones=[['Pedra','Stone'],['Pedregulho','Cobblestone'],['Granito','Granite'],['Diorito','Diorite'],['Andesito','Andesite'],['Ardósia Profunda','Deepslate'],['Tufo','Tuff'],['Arenito','Sandstone'],['Arenito Vermelho','Red_Sandstone'],['Quartzo','Quartz_Block'],['Tijolos','Bricks'],['Netherrack','Netherrack'],['Pedra do Fim','End_Stone'],['Purpur','Purpur_Block'],['Basalto','Basalt'],['Bloco de Magma','Magma_Block']];
-  stones.forEach(([pt,en])=>{add(pt,'Mundo',en);[['Escadas de','_Stairs'],['Laje de','_Slab'],['Muro de','_Wall'],['Polido','_Polished'],['Entalhado','_Chiseled']].forEach(([label,suffix])=>add(`${label} ${pt}`,'Mundo',en+suffix));});
-  [['Ferro','Iron'],['Ouro','Gold'],['Diamante','Diamond'],['Esmeralda','Emerald'],['Carvão','Coal'],['Lápis-lazúli','Lapis_Lazuli'],['Redstone','Redstone'],['Netherita','Netherite'],['Cobre','Copper']].forEach(([pt,en])=>{add(`Bloco de ${pt}`,'Minérios',`Block_of_${en}`);add(`Minério de ${pt}`,'Minérios',`${en}_Ore`);add(`Minério de ${pt} de Ardósia Profunda`,'Minérios',`Deepslate_${en}_Ore`);});
-  [['Bloco de Grama','Grass_Block'],['Terra','Dirt'],['Podzol','Podzol'],['Micélio','Mycelium'],['Areia','Sand'],['Cascalho','Gravel'],['Argila','Clay'],['Neve','Snow'],['Gelo','Ice'],['Bloco de Musgo','Moss_Block'],['Cacto','Cactus'],['Cana-de-açúcar','Sugar_Cane'],['Bambu','Bamboo'],['Samambaia','Fern'],['Grama Curta','Short_Grass'],['Girassol','Sunflower'],['Papoula','Poppy'],['Dente-de-leão','Dandelion'],['Cogumelo Marrom','Brown_Mushroom'],['Cogumelo Vermelho','Red_Mushroom'],['Folhas de Carvalho','Oak_Leaves'],['Folhas de Pinheiro','Spruce_Leaves'],['Folhas de Bétula','Birch_Leaves'],['Folhas de Selva','Jungle_Leaves'],['Folhas de Acácia','Acacia_Leaves'],['Folhas de Carvalho Escuro','Dark_Oak_Leaves'],['Folhas de Mangue','Mangrove_Leaves'],['Folhas de Cerejeira','Cherry_Leaves'],['Folhas de Carvalho Pálido','Pale_Oak_Leaves']].forEach(([n,s])=>add(n,'Natureza',s));
-  [['Ametista Bruta','Amethyst'],['Bloco de Ametista','Block_of_Amethyst'],['Calcita','Calcite'],['Sino','Bell'],['Lanterna','Lantern'],['Lanterna das Almas','Soul_Lantern'],['Quadro','Painting'],['Bandeira','Banner'],['Bloco de Netherita','Block_of_Netherite'],['Pedra do Nether','Netherrack'],['Tijolos do Nether','Nether_Bricks'],['Bloco de Quartzo','Block_of_Quartz'],['Portal do End','End_Portal'],['Pilar do End','End_Pillar']].forEach(([n,s])=>add(n,'Especiais',s));
 
-  const marked=new Set(JSON.parse(localStorage.getItem('minecraft-checklist')||'[]'));const $=id=>document.getElementById(id);
-  $('total').textContent=blocks.length;const cats=[...new Set(blocks.map(b=>b.category))].sort();$('category').innerHTML='<option>Todas</option>'+cats.map(c=>`<option>${c}</option>`).join('');
-  const imageUrl=slug=>`https://minecraft.wiki/images/${slug}.png`;
-  function render(){
-    const q=$('search').value.toLocaleLowerCase('pt-BR'),cat=$('category').value,status=$('status').value,sort=$('sort').value;
-    let list=blocks.map((b,i)=>({...b,i,done:marked.has(i)})).filter(b=>(!q||b.name.toLocaleLowerCase('pt-BR').includes(q))&&(cat==='Todas'||b.category===cat));
-    if(status==='pendentes')list=list.filter(b=>!b.done);if(status==='feitos')list=list.filter(b=>b.done);
-    list.sort((a,b)=>sort==='za'?b.name.localeCompare(a.name,'pt-BR'):sort==='categoria'?a.category.localeCompare(b.category,'pt-BR')||a.name.localeCompare(b.name,'pt-BR'):sort==='pendentes'?Number(a.done)-Number(b.done):a.name.localeCompare(b.name,'pt-BR'));
-    const done=marked.size,total=blocks.length,pct=Math.round(done/total*100);$('done').textContent=done;$('pending').textContent=Math.max(0,total-done);$('visible').textContent=list.length;$('percent').textContent=`${pct}%`;$('fill').style.width=`${pct}%`;$('empty').classList.toggle('show',!list.length);
-    $('grid').innerHTML=list.map(b=>`<article class="card ${b.done?'done':''}"><div class="card-top"><img class="icon" src="${imageUrl(b.slug)}" alt="Imagem de ${b.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="icon-fallback">🧱</span><span class="name">${b.name}</span><input class="check" type="checkbox" data-id="${b.i}" ${b.done?'checked':''} aria-label="Marcar ${b.name} como feita"></div><span class="category">${b.category}</span><div class="bottom"><span>${b.done?'✓ Coletado':'○ Pendente'}</span><span>#${b.i+1}</span></div></article>`).join('');
-    document.querySelectorAll('.check').forEach(c=>c.onchange=()=>{const id=+c.dataset.id;c.checked?marked.add(id):marked.delete(id);localStorage.setItem('minecraft-checklist',JSON.stringify([...marked]));render();});
+<script>
+  const blocks = [];
+  const add = (name, category, slug) => blocks.push({ name, category, slug });
+
+  const woods = [
+    ['Carvalho', 'Oak'], ['Pinheiro', 'Spruce'], ['Bétula', 'Birch'], ['Selva', 'Jungle'],
+    ['Acácia', 'Acacia'], ['Carvalho Escuro', 'Dark_Oak'], ['Mangue', 'Mangrove'],
+    ['Cerejeira', 'Cherry'], ['Pau de Madeira', 'Wood'], ['Bambu', 'Bamboo']
+  ];
+
+  const woodTypes = [
+    ['Tábuas', 'Planks'], ['Tronco', 'Log'], ['Madeira', 'Wood'], ['Tronco Descascado', 'Stripped_Log'],
+    ['Madeira Descascada', 'Stripped_Wood'], ['Escadas', 'Stairs'], ['Laje', 'Slab'], ['Cerca', 'Fence'],
+    ['Porta', 'Door'], ['Porta de Madeira', 'Trapdoor'], ['Viga', 'Beam']
+  ];
+
+  woods.forEach(([pt, en]) => {
+    woodTypes.forEach(([type, slug]) => add(`${pt} ${type}`, 'Madeira', `${en}_${slug}`));
+  });
+
+  const redstoneItems = [
+    ['Pó de Redstone', 'Redstone_Dust'], ['Bloco de Redstone', 'Block_of_Redstone'],
+    ['Tocha de Redstone', 'Redstone_Torch'], ['Repetidor de Redstone', 'Redstone_Repeater'],
+    ['Comparador de Redstone', 'Redstone_Comparator'], ['Porta de Redstone', 'Redstone_Lamp'],
+    ['Lâmpada de Redstone', 'Redstone_Lamp'], ['Alavanca', 'Lever'], ['Botão', 'Button'],
+    ['Placa de Pressão', 'Pressure_Plate'], ['Trilho', 'Rail'], ['Detector', 'Detector_Rail']
+  ];
+  redstoneItems.forEach(([name, slug]) => add(name, 'Redstone', slug));
+
+  const colors = [
+    ['Branco', 'White'], ['Laranja', 'Orange'], ['Magenta', 'Magenta'], ['Azul-claro', 'Light_Blue'],
+    ['Amarelo', 'Yellow'], ['Verde-limão', 'Lime'], ['Rosa', 'Pink'], ['Cinza', 'Gray'],
+    ['Cinza-claro', 'Light_Gray'], ['Ciano', 'Cyan'], ['Roxo', 'Purple'], ['Azul', 'Blue'],
+    ['Marrom', 'Brown'], ['Verde', 'Green'], ['Vermelho', 'Red'], ['Preto', 'Black']
+  ];
+
+  const colorTypes = [
+    ['Lã', 'Wool'], ['Carpete', 'Carpet'], ['Concreto', 'Concrete'], ['Pó de Concreto', 'Concrete_Powder'],
+    ['Terracota', 'Terracotta'], ['Terracota Vitrificada', 'Glazed_Terracotta'], ['Vidro', 'Glass'],
+    ['Vidro Colorido', 'Stained_Glass'], ['Bloco de Tinta', 'Colored_Terracotta']
+  ];
+
+  colors.forEach(([pt, en]) => {
+    colorTypes.forEach(([type, slug]) => add(`${type} ${pt}`, 'Cores', `${en}_${slug}`));
+  });
+
+  const stones = [
+    ['Pedra', 'Stone'], ['Pedregulho', 'Cobblestone'], ['Granito', 'Granite'], ['Diorito', 'Diorite'],
+    ['Andesito', 'Andesite'], ['Ardósia Profunda', 'Deepslate'], ['Tufo', 'Tuff'], ['Arenito', 'Sandstone'],
+    ['Arenito Polido', 'Smooth_Sandstone'], ['Basalto', 'Basalt'], ['Mármore', 'Marble'], ['Calcita', 'Calcite'],
+    ['Ametista', 'Amethyst'], ['Gesso', 'Gypsum']
+  ];
+
+  stones.forEach(([pt, en]) => {
+    add(pt, 'Mundo', en);
+    [['Escadas de', '_Stairs'], ['Laje de', '_Slab'], ['Muro de', '_Wall'], ['Polido', '_Polished'], ['Entalhado', '_Chiseled']].forEach(([label, suffix]) => {
+      add(`${label} ${pt}`, 'Mundo', `${en}${suffix}`);
+    });
+  });
+
+  const minerals = [
+    ['Ferro', 'Iron'], ['Ouro', 'Gold'], ['Diamante', 'Diamond'], ['Esmeralda', 'Emerald'], ['Carvão', 'Coal'],
+    ['Lápis-lazúli', 'Lapis_Lazuli'], ['Redstone', 'Redstone'], ['Netherita', 'Netherite'], ['Cobre', 'Copper'],
+    ['Quartzo do Nether', 'Quartz'], ['Obsidiana', 'Obsidian'], ['Turmalina', 'Turquoise']
+  ];
+  minerals.forEach(([title, slug]) => add(`${title}`, 'Minérios', slug));
+
+  const earth = [
+    ['Bloco de Grama', 'Grass_Block'], ['Terra', 'Dirt'], ['Podzol', 'Podzol'], ['Micélio', 'Mycelium'],
+    ['Areia', 'Sand'], ['Cascalho', 'Gravel'], ['Argila', 'Clay'], ['Neve', 'Snow'], ['Gelo', 'Ice'],
+    ['Bloco de Musgo', 'Moss_Block'], ['Pólo de Musgo', 'Mossy_Stone'], ['Névoa', 'Fog']
+  ];
+  earth.forEach(([title, slug]) => add(title, 'Terra', slug));
+
+  const nature = [
+    ['Flor', 'Flower'], ['Bétula', 'Birch'], ['Cacto', 'Cactus'], ['Reed', 'Reeds'], ['Toco', 'Stem'],
+    ['Semente', 'Seed'], ['Folha', 'Leaves'], ['Lama', 'Mud'], ['Pedra da Folha', 'Leaf_Stone']
+  ];
+  nature.forEach(([title, slug]) => add(title, 'Natureza', slug));
+
+  const decor = [
+    ['Mesa de Trabalho', 'Crafting_Table'], ['Fornalha', 'Furnace'], ['Bigorna', 'Anvil'], ['Bigorna Danificada', 'Damaged_Anvil'],
+    ['Fogueira', 'Campfire'], ['Fogueira das Almas', 'Soul_Campfire'], ['Alto-forno', 'Blast_Furnace'], ['Defumador', 'Smoker'],
+    ['Suporte de Poções', 'Brewing_Stand'], ['Rebolo', 'Grindstone'], ['Mesa de Encantamentos', 'Enchanting_Table'],
+    ['Mesa de Cartografia', 'Cartography_Table'], ['Cofre', 'Chest'], ['Bancada de Pedreiro', 'Stonecutter'], ['Sino', 'Bell'],
+    ['Lanterna', 'Lantern'], ['Lanterna das Almas', 'Soul_Lantern'], ['Quadro', 'Painting'], ['Caixa', 'Barrel']
+  ];
+  decor.forEach(([title, slug]) => add(title, 'Decoração', slug));
+
+  const marked = new Set(JSON.parse(localStorage.getItem('minecraft-checklist') || '[]'));
+  const $ = (id) => document.getElementById(id);
+
+  $('total').textContent = blocks.length;
+  const cats = [...new Set(blocks.map((b) => b.category))].sort();
+  $('category').innerHTML = '<option value="Todas">Todas</option>' + cats.map((c) => `<option value="${c}">${c}</option>`).join('');
+
+  const imageUrl = (slug) => `https://minecraft.wiki/images/${slug}.png`;
+
+  function render() {
+    const q = $('search').value.toLocaleLowerCase('pt-BR');
+    const cat = $('category').value;
+    const status = $('status').value;
+    const sort = $('sort').value;
+
+    let list = blocks
+      .map((b, i) => ({ ...b, i, done: marked.has(i) }))
+      .filter((b) => (!q || b.name.toLocaleLowerCase('pt-BR').includes(q)) && (cat === 'Todas' || b.category === cat));
+
+    if (status === 'pendentes') list = list.filter((b) => !b.done);
+    if (status === 'feitos') list = list.filter((b) => b.done);
+
+    list.sort((a, b) => {
+      if (sort === 'za') return b.name.localeCompare(a.name, 'pt-BR');
+      if (sort === 'categoria') return a.category.localeCompare(b.category, 'pt-BR') || a.name.localeCompare(b.name, 'pt-BR');
+      if (sort === 'pendentes') return Number(a.done) - Number(b.done) || a.name.localeCompare(b.name, 'pt-BR');
+      return a.name.localeCompare(b.name, 'pt-BR');
+    });
+
+    const done = marked.size;
+    const total = blocks.length;
+    const pct = Math.round((done / total) * 100);
+
+    $('done').textContent = done;
+    $('pending').textContent = Math.max(0, total - done);
+    $('visible').textContent = list.length;
+    $('percent').textContent = `${pct}%`;
+    $('fill').style.width = `${pct}%`;
+
+    const empty = $('empty');
+    if (list.length === 0) {
+      empty.style.display = 'block';
+    } else {
+      empty.style.display = 'none';
+    }
+
+    $('grid').innerHTML = list.map((b) => `
+      <article class="card ${b.done ? 'done' : ''}">
+        <div class="card-top">
+          <div class="icon-wrap">
+            <img
+              class="icon"
+              src="${imageUrl(b.slug)}"
+              alt="Imagem de ${b.name}"
+              loading="lazy"
+              onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,' + encodeURIComponent('<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'64\' height=\'64\'><rect width=\'64\' height=\'64\' rx=\'10\' fill=\'#1d2935\'/><text x=\'50%\' y=\'54%\' font-size=\'10\' text-anchor=\'middle\' fill=\'#f4f7fb\' font-family=\'Arial\'>Bloco</text></svg>');"
+            >
+          </div>
+          <div class="card-body">
+            <div class="card-copy">
+              <div class="card-name">${b.name}</div>
+              <div class="card-meta">${b.category}</div>
+            </div>
+            <label class="check-wrap">
+              <input class="check" type="checkbox" data-id="${b.i}" ${b.done ? 'checked' : ''}>
+            </label>
+          </div>
+        </div>
+      </article>
+    `).join('');
+
+    document.querySelectorAll('.check').forEach((c) => {
+      c.onchange = () => {
+        const id = Number(c.dataset.id);
+        if (c.checked) marked.add(id);
+        else marked.delete(id);
+        localStorage.setItem('minecraft-checklist', JSON.stringify([...marked]));
+        render();
+      };
+    });
   }
-  $('mark').onclick=()=>{const q=$('search').value.toLocaleLowerCase('pt-BR'),cat=$('category').value;blocks.forEach((b,i)=>{if((!q||b.name.toLocaleLowerCase('pt-BR').includes(q))&&(cat==='Todas'||b.category===cat))marked.add(i);});localStorage.setItem('minecraft-checklist',JSON.stringify([...marked]));render();};
-  $('clear').onclick=()=>{if(confirm('Limpar todas as marcações?')){marked.clear();localStorage.removeItem('minecraft-checklist');render();}};
-  ['search','category','status','sort'].forEach(id=>$(id).addEventListener(id==='search'?'input':'change',render));render();
+
+  $('mark').onclick = () => {
+    const q = $('search').value.toLocaleLowerCase('pt-BR');
+    const cat = $('category').value;
+
+    blocks.forEach((b, i) => {
+      if ((!q || b.name.toLocaleLowerCase('pt-BR').includes(q)) && (cat === 'Todas' || b.category === cat)) {
+        marked.add(i);
+      }
+    });
+
+    localStorage.setItem('minecraft-checklist', JSON.stringify([...marked]));
+    render();
+  };
+
+  $('clear').onclick = () => {
+    if (confirm('Limpar todas as marcações?')) {
+      marked.clear();
+      localStorage.removeItem('minecraft-checklist');
+      render();
+    }
+  };
+
+  ['search', 'category', 'status', 'sort'].forEach((id) => {
+    const el = $(id);
+    el.addEventListener(id === 'search' ? 'input' : 'change', render);
+  });
+
+  render();
 </script>
 </body>
 </html>
